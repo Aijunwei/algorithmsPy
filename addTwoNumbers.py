@@ -6,35 +6,20 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode):
-        newList = None
-        add = 0
-        curNode = None
-        while l1 or l2:
-            num1 = 0
-            num2 = 0
+        curNode = newList = ListNode(0)
+        sum = 0
+        while l1 or l2 or sum != 0:
             if l1 != None:
-                num1 = l1.val
+                sum += l1.val
                 l1 = l1.next
             if l2 != None:
-                num2 = l2.val
+                sum += l2.val
                 l2 = l2.next
-            sum = num1 + num2 + add
-            if sum >= 10:
-                node = ListNode(sum - 10)
-                add = 1
-            else:
-                node = ListNode(sum)
-                add = 0
-            
-            if newList == None:
-                newList = node
-                curNode = node
-            else:
-                curNode.next = node
-                curNode = node
-        if add == 1:
-            curNode.next = ListNode(1)
-        return newList
+            node = ListNode(sum % 10)
+            sum //= 10
+            curNode.next = node
+            curNode = node
+        return newList.next
 
 
 def createList(li):

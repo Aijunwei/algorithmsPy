@@ -24,6 +24,10 @@ class Stack(Generic[T]):
         item = self.first.item
         self.first = self.first.next
         return item
+    def peek(self):
+        if self.n == 0:
+            return None
+        return self.first.item
 
 def printStack(stack):
     first = stack.first

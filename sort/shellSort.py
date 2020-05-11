@@ -11,16 +11,20 @@ class ShellSort(SortBase):
             i -= step
         data[i] = t
     def sort(self):
+        steps = [1]
         data = self.data
         n = len(data)
         step = 1
         stepLimit = n // 3
         while step < stepLimit:
             step = 3 * step + 1
-        print('maxStep=', step)
+            steps.append(step)
+        print('maxStep=', step, steps)
 
         if n > 1:
-            while step >= 1:
+            #while step >= 1:
+            while len(steps) > 0:
+                step = steps.pop()
                 i = step
                 while i < n:
                     j = i - step
@@ -31,7 +35,7 @@ class ShellSort(SortBase):
                     self.moveRight(i, j, step)
                     i += 1
                 print(f'step:{step}排序：', self.data)
-                step = step // 3
+                # step = step // 3
         print('排序后：', self.data)
 
 if __name__ == '__main__':

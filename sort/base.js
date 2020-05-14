@@ -18,6 +18,23 @@ class Base {
             })
         })
     }
+    static exch(list, i, j) {
+        let tmp = list[i];
+        list[i] = list[j];
+        list[j] = tmp;
+        /**
+         * 不依赖tmp交换1
+         * list[i] = list[i] - list[j]
+         * list[j] = list[i] + list[j]
+         * list[i] = list[j] - list[i]
+         */
+        /**
+         * 不依赖tmp交换2
+         * list[i] = list[i]^list[j]
+         * list[j] = list[i]^list[j]
+         * list[i] = list[i]^list[j]
+         */
+    }
 }
 
 module.exports = Base

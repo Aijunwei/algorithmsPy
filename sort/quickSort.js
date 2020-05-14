@@ -43,6 +43,36 @@ class QuickSort {
          * list[i] = list[i]^list[j]
          */
     }
+    /**
+     * 三向切分快速排序
+     * 对于有大量重复的数据快速排序可能使得排序时间从线性对数级别降级到平方级别
+     * 先对数据进行一次整理
+     * v-比较基准，lt指针 a[lo..lt] 小于v，gt指针：a[gt+1..hi]大于v；a[lt+1, gt] 等于v
+     * a[i] 小于 v,把a[lt]和a[i]互换，lt和i加一
+     * a[i]大于v，把a[gt]和a[i]互换，gt减一
+     * a[i]等于v，则i加一
+     */
+    static threeDividerSort(data, lo, hi) {
+        let lt = lo;
+        let i = lo + 1;
+        let gt = hi;
+        const v = data[lo];
+        while (i <= gt) {
+            if (a[i] < v) {
+                QuickSort.exch(data, i, lt);
+                i++;
+                lt++;
+            } else if (a[i] > v) {
+                QuickSort.exch(data, i, gt)
+                gt--;
+            } else {
+                i++;
+            }
+            //此时data[lo..lt] <=data[lt+1..gt-1] <=data[gt+1..hi],再对左右边使用快速排序
+            QuickSort.sort(data,lo,lt);
+            QuickSort.sort(data, gt+1, hi)
+        }
+    }
 }
 
 Base.readInut().then(data => {

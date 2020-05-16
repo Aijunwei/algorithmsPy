@@ -58,11 +58,11 @@ class QuickSort {
         let gt = hi;
         const v = data[lo];
         while (i <= gt) {
-            if (a[i] < v) {
+            if (data[i] < v) {
                 QuickSort.exch(data, i, lt);
                 i++;
                 lt++;
-            } else if (a[i] > v) {
+            } else if (data[i] > v) {
                 QuickSort.exch(data, i, gt)
                 gt--;
             } else {
@@ -77,8 +77,10 @@ class QuickSort {
 
 Base.readInut().then(data => {
     data = data.map(i => +i)
-    console.log('输入的排序列', data) 
-    QuickSort.sort(data, 0, data.length - 1)
+    Base.shuffle(data)
+    console.log('shuffle:', data) 
+    //QuickSort.sort(data, 0, data.length - 1)
     //QuickSort.partition(data, 0, data.length - 1)
+    QuickSort.threeDividerSort(data, 0, data.length - 1)
     console.log('sorted', data)
 })

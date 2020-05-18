@@ -73,8 +73,112 @@ class QuickSort {
             QuickSort.sort(data, gt+1, hi)
         }
     }
-}
+    //2.3.16
+    static createBest(n) {
+        let data = [];
+        for(let i=0; i < n; i++) {
+            data[i] = i;
+        }
+        
+        QuickSort.best(data, 0, n-1);
+        return data;
+    }
+    static best(data, lo, hi) {
+        if (lo >= hi) {
+            return
+        }
+        let mid = lo + Math.floor((hi - lo) / 2);
+        QuickSort.best(data, lo, mid - 1);
+        QuickSort.best(data, mid + 1, hi);
+        Base.exch(data, lo, mid);
+    }
+    //2.3.17
+    static partitionV2(data, lo, hi) {
+        let i = lo;
+        let j = hi + 1;
+        const v = data[lo];
+        while (true) {
+            while (data[++i] < v);
+            while (data[--j] > v);
+            if (i >= j) break;
+            QuickSort.exch(data, i, j);
+        }
+        QuickSort.exch(data, lo, j);
+        return  j;
+    }
 
+    //2.3.17
+    static sortV2(list, lo, hi) {
+        if (lo >= hi) return
+        QuickSort.printCurrent(list, lo, hi)
+        //console.log('shuffle', list)
+        let dividerIndex = QuickSort.partitionV2(list, lo, hi);
+        console.log('dividerIndex=', dividerIndex, list, )
+        let leftHi;
+        //保证左子树最右侧为最大值，可以去除partition右侧边界检查
+        if (dividerIndex == hi) {//切分位置为hi，会无限递归
+            leftHi = dividerIndex - 1;
+            Base.exch(list, lo, leftHi)
+        } else if ((dividerIndex - lo) <= 2) {
+            leftHi = dividerIndex - 1;
+        }
+        else {
+            leftHi = dividerIndex
+        }
+        QuickSort.sortV2(list, lo, leftHi)
+        QuickSort.sortV2(list, dividerIndex + 1, hi)
+    }
+    static printCurrent(list, lo, hi) {
+        let cur = []
+        for (let i = lo; i<=hi; i++) {
+            cur.push(list[i])
+        }
+        console.log(cur, lo, hi)
+    }
+    static partitionV3(list, lo, hi, stack) {
+        const v = list[lo];
+        let i = lo;
+        let j = hi + 1;
+        while(true) {
+            while (list[++i] < v) {
+                if (i == hi) break;
+            }
+            while (list[--j] > v);
+            if (i >= j) break;
+            Base.exch(list, i, j)
+        }
+        Base.exch(list, j, lo)
+        if (j < hi) { // push right child
+            stack.push(list.slice(j + 1))
+        }
+        stack.push(v);
+        if (j > lo) { //push left child
+            stack.push(list.slice(lo, j))
+        }
+        console.log('stack', stack);
+    }
+    static quickSortv3(list, lo, hi) {
+        const stack = [];
+        const output = [];
+        QuickSort.partitionV3(list, lo, hi, stack);
+        while (stack.length) {
+            let item = stack.pop();
+            if (Array.isArray(item)) {
+                let len = item.length;
+                if (len == 1) {
+                    output.push(item[0]);
+                } else {
+                    QuickSort.partitionV3(item, lo, len - 1, stack)
+                }
+            } else {
+                output.push(item)
+            }
+        }
+        console.log('sorted', output)
+
+    }
+}
+/*
 Base.readInut().then(data => {
     data = data.map(i => +i)
     Base.shuffle(data)
@@ -83,4 +187,28 @@ Base.readInut().then(data => {
     //QuickSort.partition(data, 0, data.length - 1)
     QuickSort.threeDividerSort(data, 0, data.length - 1)
     console.log('sorted', data)
+
+})*/
+
+//2.3.16
+//console.log('best sorted', QuickSort.createBest(10))
+//2.3.17
+/*
+Base.readInut().then(data => {
+    data = data.map(i => +i)
+    Base.shuffle(data, 0, data.length - 1);
+    console.log('shuffle', data)
+    //QuickSort.sortV2(data, 0, data.length - 1)
+    
+    QuickSort.sortV2(data, 0 , data.length-1)
+    console.log('sorted', data)
+})*/
+
+Base.readInut().then(data => {
+    data = data.map(i => +i)
+    Base.shuffle(data, 0, data.length - 1);
+    console.log('shuffle', data)
+    //QuickSort.sortV2(data, 0, data.length - 1)
+    
+    QuickSort.quickSortv3(data, 0 , data.length-1)
 })

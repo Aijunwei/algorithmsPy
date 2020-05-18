@@ -47,14 +47,24 @@ class Base {
      * 1. 从数组最后一个开始循环i=len - 1
      * 2. 每次从0 -（i-1）之间随机抽取一个数与 i  交换，此时i位置的数是随机放置的数
      * 3. 直到i=0 结束
+     * 4. 把最大的放在数组最后
      * @param {array} data 
      */
-    static shuffle(data) {
-        let i = data.length
+    static shuffle(data, lo, hi) {
+        let len = hi - lo + 1;
+        let i = len;
+        let max = data[hi];
+        let maxIndex = hi;
         while(i) {
             let rand = Math.floor(Math.random() * i--);
-            [data[i], data[rand]] = [data[rand], data[i]]
+            [data[i], data[rand]] = [data[rand], data[i]];
+            if (max < data[i]) {
+                max = data[i]
+                maxIndex = i;
+            }
         }
+        Base.exch(data, maxIndex, len-1);
+
     }
 }
 

@@ -11,14 +11,16 @@
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-    const len = nums.length;
+    const map = {};
     let i = 0;
-    let findIndex;
-    for (; i < len; i++) {
-        findIndex = nums.lastIndexOf(target - nums[i]);
-        if (findIndex > -1 && findIndex != i) {
-            return [i, findIndex]
+    let val;
+    while (i < nums.length) {
+        val = target - nums[i];
+        if (map[val] !== undefined) {
+            return [map[val], i];
         }
+        map[nums[i]] = i;
+        i++;
     }
     return []
 };
